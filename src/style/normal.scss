@@ -1,0 +1,31 @@
+.el-header {
+  background: rgb(135, 209, 252);
+}
+.el-aside {
+  background: rgb(98, 197, 255);
+}
+.el-main {
+  background: rgb(197, 227, 245);
+}
+
+
+.common-layout.light .el-header {
+  background: rgb(227, 245, 255);
+}
+.common-layout.light .el-aside {
+  background: rgb(204, 230, 245);
+}
+.common-layout.light .el-main {
+  background: rgb(251, 254, 255);
+}
+
+
+.common-layout.dark .el-header {
+  background: rgb(93, 102, 107);
+}
+.common-layout.dark .el-aside {
+  background: rgb(77, 95, 105);
+}
+.common-layout.dark .el-main {
+  background: rgb(48, 49, 49);
+}
