@@ -1,0 +1,14 @@
+$primaryColor: var(--primaryColor, rgb(98, 197, 255));
+$assignmentColor1: var(--assignmentColor1, rgb(135, 209, 252));
+$assignmentColor2: var(--assignmentColor2, rgb(197, 227, 245));
+
+
+.common-layout .el-header {
+  background: $assignmentColor1;
+}
+.common-layout .el-aside {
+  background: $primaryColor
+}
+.common-layout .el-main {
+  background: $assignmentColor2;
+}

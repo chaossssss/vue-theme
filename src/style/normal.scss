@@ -1,11 +1,29 @@
 .el-header {
   background: rgb(135, 209, 252);
+  [data-theme="light"] & {
+    background: rgb(227, 245, 255);
+  }
+  [data-theme="dark"] & {
+    background: rgb(93, 102, 107);
+  }
 }
 .el-aside {
   background: rgb(98, 197, 255);
+  [data-theme="light"] & {
+    background: rgb(204, 230, 245);
+  }
+  [data-theme="dark"] & {
+    background: rgb(77, 95, 105);
+  }
 }
 .el-main {
   background: rgb(197, 227, 245);
+  [data-theme="light"] & {
+    background: rgb(251, 254, 255);
+  }
+  [data-theme="dark"] & {
+    background: rgb(48, 49, 49);
+  }
 }
 
 
@@ -28,4 +46,40 @@
 }
 .common-layout.dark .el-main {
   background: rgb(48, 49, 49);
+}
+
+
+
+:root {
+  --theme-header: rgb(135, 209, 252);
+  --theme-aside: rgb(98, 197, 255);
+  --theme-main: rgb(197, 227, 245);
+  color-scheme: dark;
+}
+
+.light {
+  --theme-header: rgb(227, 245, 255);
+  --theme-aside: rgb(204, 230, 245);
+  --theme-main: rgb(251, 254, 255);
+}
+
+.dark {
+  --theme-header: rgb(93, 102, 107);
+  --theme-aside: rgb(77, 95, 105);
+  --theme-main: rgb(48, 49, 49);
+}
+
+.el-header {
+  background: var(--theme-header);
+}
+.el-aside {
+  background: var(--theme-aside);
+}
+.el-main {
+  background: var(--theme-main);
+}
+
+body[dark] {
+  background: #000;
+  color-scheme: dark;
 }
