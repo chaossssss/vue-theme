@@ -128,6 +128,14 @@
                     <el-radio label="使用" />
                   </el-radio-group>
                 </el-form-item>
+                <el-form-item label="7.图片主题">
+                  <el-image
+                    class="image-list"
+                    v-for="(item, index) in picList"
+                    :key="index"
+                    :src="item"
+                  />
+                </el-form-item>
               </el-form>
             </div>
           </div>
@@ -138,9 +146,12 @@
 </template>
 <script setup>
 import { ref } from "vue";
-import Color from "color";
+import pic1 from "../assets/1.jpg";
+import pic2 from "../assets/2.jpg";
+import { calcColor } from "../utils/color.js";
 const form = ref({});
 const colorList = ref([]);
+const picList = ref([pic1, pic2]);
 const changeOption1 = (val) => {
   loadStyle(val);
 };
@@ -150,7 +161,7 @@ const changeOption4 = (val) => {
 };
 
 const changeOption5 = (val) => {
-  calcColor(val);
+  calcColorMethod(val);
 };
 
 const changeOption6 = (val) => {
@@ -165,10 +176,10 @@ const changeOption6 = (val) => {
   }
 };
 
-function calcColor(color) {
+function calcColorMethod(color) {
   let primaryColor = color;
-  let assignmentColor1 = Color(primaryColor).mix(Color("white"), 0.2).hex();
-  let assignmentColor2 = Color(primaryColor).mix(Color("white"), 0.4).hex();
+  let assignmentColor1 = calcColor(primaryColor, "white", 0.2);
+  let assignmentColor2 = calcColor(primaryColor, "white", 0.4);
   colorList.value = [primaryColor, assignmentColor1, assignmentColor2];
   document
     .getElementsByTagName("body")[0]
@@ -227,6 +238,9 @@ function loadStyle(styleName) {
     text-align: center;
     color: #000;
     padding-top: 5px;
+  }
+  .image-list {
+    width: 120px;
   }
 }
 </style>
