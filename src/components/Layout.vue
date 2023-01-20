@@ -149,6 +149,8 @@ import { ref } from "vue";
 import pic1 from "../assets/1.jpg";
 import pic2 from "../assets/2.jpg";
 import { calcColor } from "../utils/color.js";
+import { themeColor as ColorBox } from "../utils/colorBox.js";
+import { themeColor as Octree } from "../utils/octree.js";
 const form = ref({});
 const colorList = ref([]);
 const picList = ref([pic1, pic2]);
