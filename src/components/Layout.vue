@@ -72,18 +72,15 @@
             <div class="control-group">
               <el-form :model="form" label-width="160px" label-position="left">
                 <el-form-item label="1.切换css文件">
-                  <el-radio-group
-                    v-model="form.option1"
-                    @change="changeOption1"
-                  >
-                    <el-radio label="light" />
-                    <el-radio label="dark" />
+                  <el-radio-group v-model="form.option1" @change="changeOption1">
+                    <el-radio label="light1" />
+                    <el-radio label="dark1" />
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="2.类名切换">
                   <el-radio-group v-model="form.option2">
-                    <el-radio label="light" />
-                    <el-radio label="dark" />
+                    <el-radio label="light2" />
+                    <el-radio label="dark2" />
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="3.css变量+类名切换">
@@ -93,48 +90,33 @@
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="4.根元素添加属性">
-                  <el-radio-group
-                    v-model="form.option4"
-                    @change="changeOption4"
-                  >
+                  <el-radio-group v-model="form.option4" @change="changeOption4">
                     <el-radio label="light" />
                     <el-radio label="dark" />
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="5.自定义颜色">
-                  <el-color-picker
-                    v-model="form.option5"
-                    @change="changeOption5"
-                  />
+                  <el-color-picker v-model="form.option5" @change="changeOption5" />
                   <div class="color-box">
-                    <div
-                      class="color-list"
-                      v-for="(item, index) in colorList"
-                      :key="index"
-                    >
-                      <div
-                        class="color-block"
-                        :style="{ background: item }"
-                      ></div>
+                    <div class="color-list" v-for="(item, index) in colorList" :key="index">
+                      <div class="color-block" :style="{ background: item }"></div>
                       <div class="color-text">{{ item }}</div>
                     </div>
                   </div>
                 </el-form-item>
                 <el-form-item label="6.系统主题">
-                  <el-radio-group
-                    v-model="form.option6"
-                    @change="changeOption6"
-                  >
+                  <el-radio-group v-model="form.option6" @change="changeOption6">
                     <el-radio label="使用" />
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="7.图片主题">
-                  <el-image
-                    class="image-list"
-                    v-for="(item, index) in picList"
-                    :key="index"
-                    :src="item"
-                  />
+                  <img ref="picRef" class="image-list" src="../assets/1.jpg" @click="getPic" />
+                </el-form-item>
+                <el-form-item label="8.使用css-var-ponyfill">
+                  <el-radio-group v-model="form.option8" @change="changeOption8">
+                    <el-radio label="light" />
+                    <el-radio label="dark" />
+                  </el-radio-group>
                 </el-form-item>
               </el-form>
             </div>
@@ -145,15 +127,25 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, reactive, toRefs } from "vue";
 import pic1 from "../assets/1.jpg";
 import pic2 from "../assets/2.jpg";
 import { calcColor } from "../utils/color.js";
-import { themeColor as ColorBox } from "../utils/colorBox.js";
-import { themeColor as Octree } from "../utils/octree.js";
+import themeColor from "../utils/colorBox.js";
+import ColorThief from 'colorthief'
+// import { themeColor as Octree } from "../utils/octree.js";
+import { initTheme } from '../utils/theme'
 const form = ref({});
 const colorList = ref([]);
-const picList = ref([pic1, pic2]);
+const picList = ref([pic1]);
+const picRef = ref()
+const picReactive = ({})
+for(let i = 0; i < 3; i++) {
+  picReactive['pic'+ i] = null
+}
+console.log(picReactive)
+toRefs(picReactive)
+
 const changeOption1 = (val) => {
   loadStyle(val);
 };
@@ -177,6 +169,55 @@ const changeOption6 = (val) => {
     calcColor();
   }
 };
+
+const changeOption8 = (val) => {
+  initTheme(val)
+}
+
+
+const imageToBase64 = (file) => {
+  var reader = new FileReader()
+  reader.readAsDataURL(file)
+  reader.onload = () => {
+    console.log('file 转 base64结果：' + reader.result)
+  }
+  reader.onerror = function (error) {
+    console.log('Error: ', error)
+  }
+}
+
+
+const getPic = (pic) => {
+  console.log(pic)
+  const colorThief = new ColorThief();
+  const img = document.querySelector('img');
+  const getColorFun = () => {
+    let color = colorThief.getColor(img);
+    console.log(color)
+  }
+  if (img.complete) {
+    getColorFun();
+  } else {
+    image.addEventListener('load', function () {
+      getColorFun();
+    });
+  }
+
+}
+
+const handleImgToBase64 = (url) => {
+  var image = new Image();
+  image.crossOrigin = "";
+  image.src = url;
+  image.onload = function () {
+    let base64 = imageToBase64(image); //图片转base64
+
+    let file = base64ToFile(base64, "file"); //base64转File
+    return file;
+  };
+}
+
+
 
 function calcColorMethod(color) {
   let primaryColor = color;
@@ -208,11 +249,14 @@ function loadStyle(styleName) {
   :deep(.el-container) {
     height: 100vh;
   }
+
   .main-box {
     display: flex;
+
     .btn-box {
       flex: 2;
     }
+
     .control-group {
       flex: 1;
       border: 1px solid #eee;
@@ -221,26 +265,28 @@ function loadStyle(styleName) {
       box-sizing: border-box;
     }
   }
-  // :deep(.el-header) {
-  //   background: v-bind("form.option5");
-  // }
+
   .color-box {
     padding-top: 20px;
     background: #fff;
   }
+
   .color-list {
     display: inline-block;
     margin-right: 20px;
   }
+
   .color-block {
     width: 100px;
     height: 100px;
   }
+
   .color-text {
     text-align: center;
     color: #000;
     padding-top: 5px;
   }
+
   .image-list {
     width: 120px;
   }

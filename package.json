@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "color": "^4.2.3",
+    "colorthief": "^2.3.2",
     "css-vars-ponyfill": "^2.4.8",
     "element-plus": "^2.2.28",
     "normalize.css": "^8.0.1",
