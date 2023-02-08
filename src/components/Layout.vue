@@ -118,6 +118,9 @@
                     <el-radio label="dark" />
                   </el-radio-group>
                 </el-form-item>
+                <el-form-item label="9.vite-plugin-theme"></el-form-item>
+                <el-form-item label="10.vite-plugin-theme-preprocessor"></el-form-item>
+                <el-form-item label="11.@vueuse/core useDark"></el-form-item>
               </el-form>
             </div>
           </div>
@@ -140,8 +143,8 @@ const colorList = ref([]);
 const picList = ref([pic1]);
 const picRef = ref()
 const picReactive = ({})
-for(let i = 0; i < 3; i++) {
-  picReactive['pic'+ i] = null
+for (let i = 0; i < 3; i++) {
+  picReactive['pic' + i] = null
 }
 console.log(picReactive)
 toRefs(picReactive)
