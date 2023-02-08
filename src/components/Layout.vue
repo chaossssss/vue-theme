@@ -118,9 +118,8 @@
                     <el-radio label="dark" />
                   </el-radio-group>
                 </el-form-item>
-                <el-form-item label="9.vite-plugin-theme"></el-form-item>
-                <el-form-item label="10.vite-plugin-theme-preprocessor"></el-form-item>
-                <el-form-item label="11.@vueuse/core useDark"></el-form-item>
+                <el-form-item label="9.vite-plugin-theme-preprocessor"></el-form-item>
+                <el-form-item label="10.@vueuse/core useDark"></el-form-item>
               </el-form>
             </div>
           </div>
