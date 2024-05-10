@@ -72,7 +72,10 @@
             <div class="control-group">
               <el-form :model="form" label-width="160px" label-position="left">
                 <el-form-item label="1.切换css文件">
-                  <el-radio-group v-model="form.option1" @change="changeOption1">
+                  <el-radio-group
+                    v-model="form.option1"
+                    @change="changeOption1"
+                  >
                     <el-radio label="light1" />
                     <el-radio label="dark1" />
                   </el-radio-group>
@@ -90,36 +93,73 @@
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="4.根元素添加属性">
-                  <el-radio-group v-model="form.option4" @change="changeOption4">
+                  <el-radio-group
+                    v-model="form.option4"
+                    @change="changeOption4"
+                  >
                     <el-radio label="light" />
                     <el-radio label="dark" />
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="5.自定义颜色">
-                  <el-color-picker v-model="form.option5" @change="changeOption5" />
+                  <el-color-picker
+                    v-model="form.option5"
+                    @change="changeOption5"
+                  />
                   <div class="color-box">
-                    <div class="color-list" v-for="(item, index) in colorList" :key="index">
-                      <div class="color-block" :style="{ background: item }"></div>
+                    <div
+                      class="color-list"
+                      v-for="(item, index) in colorList"
+                      :key="index"
+                    >
+                      <div
+                        class="color-block"
+                        :style="{ background: item }"
+                      ></div>
                       <div class="color-text">{{ item }}</div>
                     </div>
                   </div>
                 </el-form-item>
                 <el-form-item label="6.系统主题">
-                  <el-radio-group v-model="form.option6" @change="changeOption6">
+                  <el-radio-group
+                    v-model="form.option6"
+                    @change="changeOption6"
+                  >
                     <el-radio label="使用" />
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="7.图片主题">
-                  <img ref="picRef" class="image-list" src="../assets/1.jpg" @click="getPic" />
+                  <img
+                    ref="picRef"
+                    class="image-list"
+                    src="../assets/1.jpg"
+                    @click="getPic"
+                  />
                 </el-form-item>
                 <el-form-item label="8.使用css-var-ponyfill">
-                  <el-radio-group v-model="form.option8" @change="changeOption8">
+                  <el-radio-group
+                    v-model="form.option8"
+                    @change="changeOption8"
+                  >
                     <el-radio label="light" />
                     <el-radio label="dark" />
                   </el-radio-group>
                 </el-form-item>
-                <el-form-item label="9.vite-plugin-theme-preprocessor"></el-form-item>
-                <el-form-item label="10.@vueuse/core useDark"></el-form-item>
+                <el-form-item
+                  label="9.vite-plugin-theme-preprocessor"
+                ></el-form-item>
+                <el-form-item label="10.@vueuse/core useDark">
+                  <el-radio-group
+                    v-model="form.option10"
+                    @change="(val) => changeOption10(val, e)"
+                  >
+                    <el-radio label="light" />
+                    <el-radio label="dark" />
+                  </el-radio-group>
+                </el-form-item>
+                <el-form-item label="transition">
+                  <el-button @click="toggleTheme">Toggle Theme</el-button>
+                </el-form-item>
               </el-form>
             </div>
           </div>
@@ -134,19 +174,20 @@ import pic1 from "../assets/1.jpg";
 import pic2 from "../assets/2.jpg";
 import { calcColor } from "../utils/color.js";
 import themeColor from "../utils/colorBox.js";
-import ColorThief from 'colorthief'
+import ColorThief from "colorthief";
 // import { themeColor as Octree } from "../utils/octree.js";
-import { initTheme } from '../utils/theme'
+import { initTheme } from "../utils/theme";
+import { useDark, useToggle } from "@vueuse/core";
 const form = ref({});
 const colorList = ref([]);
 const picList = ref([pic1]);
-const picRef = ref()
-const picReactive = ({})
+const picRef = ref();
+const picReactive = {};
 for (let i = 0; i < 3; i++) {
-  picReactive['pic' + i] = null
+  picReactive["pic" + i] = null;
 }
-console.log(picReactive)
-toRefs(picReactive)
+console.log(picReactive);
+toRefs(picReactive);
 
 const changeOption1 = (val) => {
   loadStyle(val);
@@ -173,39 +214,36 @@ const changeOption6 = (val) => {
 };
 
 const changeOption8 = (val) => {
-  initTheme(val)
-}
-
+  initTheme(val);
+};
 
 const imageToBase64 = (file) => {
-  var reader = new FileReader()
-  reader.readAsDataURL(file)
+  var reader = new FileReader();
+  reader.readAsDataURL(file);
   reader.onload = () => {
-    console.log('file 转 base64结果：' + reader.result)
-  }
+    console.log("file 转 base64结果：" + reader.result);
+  };
   reader.onerror = function (error) {
-    console.log('Error: ', error)
-  }
-}
-
+    console.log("Error: ", error);
+  };
+};
 
 const getPic = (pic) => {
-  console.log(pic)
+  console.log(pic);
   const colorThief = new ColorThief();
-  const img = document.querySelector('img');
+  const img = document.querySelector("img");
   const getColorFun = () => {
     let color = colorThief.getColor(img);
-    console.log(color)
-  }
+    console.log(color);
+  };
   if (img.complete) {
     getColorFun();
   } else {
-    image.addEventListener('load', function () {
+    image.addEventListener("load", function () {
       getColorFun();
     });
   }
-
-}
+};
 
 const handleImgToBase64 = (url) => {
   var image = new Image();
@@ -217,9 +255,7 @@ const handleImgToBase64 = (url) => {
     let file = base64ToFile(base64, "file"); //base64转File
     return file;
   };
-}
-
-
+};
 
 function calcColorMethod(color) {
   let primaryColor = color;
@@ -245,6 +281,60 @@ function loadStyle(styleName) {
   let head = document.getElementsByTagName("head")[0];
   head.appendChild(link);
 }
+
+const isDarks = useDark({
+  selector: "html",
+  attribute: "data-theme",
+  valueDark: "dark",
+  valueLight: "light",
+});
+const toggleDark = useToggle(isDarks);
+const changeOption10 = (val, event) => {
+  toggleDark();
+  // toggleTheme(event);
+};
+
+const toggleTheme = (event) => {
+  console.log(event);
+  const x = event.clientX;
+  const y = event.clientY;
+  const endRadius = Math.hypot(
+    Math.max(x, innerWidth - x),
+    Math.max(y, innerHeight - y)
+  );
+
+  let isDark = false;
+
+  // @ts-ignore
+  const transition = document.startViewTransition(() => {
+    const root = document.documentElement;
+    // console.log(root);
+    isDark = root.classList.contains("dark");
+    root.classList.remove(isDark ? "dark" : "light");
+    root.classList.add(isDark ? "light" : "dark");
+    // isDark = !isDark;
+    toggleDark();
+  });
+
+  transition.ready.then(() => {
+    const clipPath = [
+      `circle(0px at ${x}px ${y}px)`,
+      `circle(${endRadius}px at ${x}px ${y}px)`,
+    ];
+    document.documentElement.animate(
+      {
+        clipPath: isDark ? [...clipPath].reverse() : clipPath,
+      },
+      {
+        duration: 1500,
+        easing: "ease-in",
+        pseudoElement: isDark
+          ? "::view-transition-old(root)"
+          : "::view-transition-new(root)",
+      }
+    );
+  });
+};
 </script>
 <style lang="scss" scoped>
 .common-layout {

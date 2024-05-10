@@ -26,6 +26,29 @@
   }
 }
 
+// view tranisition
+::view-transition-old(root),
+::view-transition-root(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+/* 进入dark模式和退出dark模式时，两个图像的位置顺序正好相反 */
+[data-theme="dark"]::view-transition-old(root) {
+  z-index: 1;
+}
+[data-theme="dark"]::view-transition-new(root) {
+  z-index: 99999;
+}
+
+::view-transition-old(root) {
+  z-index: 99999;
+}
+::view-transition-new(root) {
+  z-index: 1;
+}
+
+
+
 
 .common-layout.light2 .el-header {
   background: rgb(227, 245, 255);
