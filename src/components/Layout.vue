@@ -282,20 +282,19 @@ function loadStyle(styleName) {
   head.appendChild(link);
 }
 
-const isDarks = useDark({
+const isDark = useDark({
   selector: "html",
   attribute: "data-theme",
   valueDark: "dark",
   valueLight: "light",
 });
-const toggleDark = useToggle(isDarks);
+const toggleDark = useToggle(isDark);
 const changeOption10 = (val, event) => {
   toggleDark();
   // toggleTheme(event);
 };
 
 const toggleTheme = (event) => {
-  console.log(event);
   const x = event.clientX;
   const y = event.clientY;
   const endRadius = Math.hypot(
@@ -303,16 +302,12 @@ const toggleTheme = (event) => {
     Math.max(y, innerHeight - y)
   );
 
-  let isDark = false;
-
-  // @ts-ignore
-  const transition = document.startViewTransition(() => {
-    const root = document.documentElement;
-    // console.log(root);
-    isDark = root.classList.contains("dark");
-    root.classList.remove(isDark ? "dark" : "light");
-    root.classList.add(isDark ? "light" : "dark");
-    // isDark = !isDark;
+  // 兼容性处理
+  if (!document.startViewTransition) {
+    toggleDark();
+    return;
+  }
+  const transition = document.startViewTransition(async () => {
     toggleDark();
   });
 
@@ -321,20 +316,63 @@ const toggleTheme = (event) => {
       `circle(0px at ${x}px ${y}px)`,
       `circle(${endRadius}px at ${x}px ${y}px)`,
     ];
+    console.log(isDark.value);
     document.documentElement.animate(
       {
-        clipPath: isDark ? [...clipPath].reverse() : clipPath,
+        clipPath: isDark.value ? [...clipPath].reverse() : clipPath,
       },
       {
-        duration: 1500,
+        duration: 1000,
         easing: "ease-in",
-        pseudoElement: isDark
+        pseudoElement: isDark.value
           ? "::view-transition-old(root)"
           : "::view-transition-new(root)",
       }
     );
   });
 };
+
+// const toggleTheme = (event) => {
+//   console.log(event);
+//   const x = event.clientX;
+//   const y = event.clientY;
+//   const endRadius = Math.hypot(
+//     Math.max(x, innerWidth - x),
+//     Math.max(y, innerHeight - y)
+//   );
+
+//   let isDark = false;
+
+//   // @ts-ignore
+//   const transition = document.startViewTransition(() => {
+//     const root = document.documentElement;
+//     // console.log(root);
+//     isDark = root.classList.contains("dark");
+//     root.classList.remove(isDark ? "dark" : "light");
+//     root.classList.add(isDark ? "light" : "dark");
+//     // isDark = !isDark;
+//     toggleDark();
+//   });
+
+//   transition.ready.then(() => {
+//     const clipPath = [
+//       `circle(0px at ${x}px ${y}px)`,
+//       `circle(${endRadius}px at ${x}px ${y}px)`,
+//     ];
+//     document.documentElement.animate(
+//       {
+//         clipPath: isDark ? [...clipPath].reverse() : clipPath,
+//       },
+//       {
+//         duration: 1500,
+//         easing: "ease-in",
+//         pseudoElement: isDark
+//           ? "::view-transition-old(root)"
+//           : "::view-transition-new(root)",
+//       }
+//     );
+//   });
+// };
 </script>
 <style lang="scss" scoped>
 .common-layout {

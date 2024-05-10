@@ -25,7 +25,17 @@
     background: rgb(48, 49, 49);
   }
 }
+// [data-theme="light"] {
+//   body {
+//     background-color: #ffffff;
+//   }
+// }
 
+// [data-theme="dark"] {
+//   body {
+//     background-color: #000;
+//   }
+// }
 // view tranisition
 ::view-transition-old(root),
 ::view-transition-root(root) {
@@ -34,17 +44,17 @@
 }
 /* 进入dark模式和退出dark模式时，两个图像的位置顺序正好相反 */
 [data-theme="dark"]::view-transition-old(root) {
-  z-index: 1;
+  z-index: 2147483646;
 }
 [data-theme="dark"]::view-transition-new(root) {
-  z-index: 99999;
+  z-index: 1;
 }
 
 ::view-transition-old(root) {
-  z-index: 99999;
+  z-index: 1;
 }
 ::view-transition-new(root) {
-  z-index: 1;
+  z-index: 2147483646;
 }
 
 
